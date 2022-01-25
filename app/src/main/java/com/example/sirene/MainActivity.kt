@@ -6,6 +6,9 @@ import androidx.fragment.app.Fragment
 import com.example.sirene.fragment.*
 import com.example.sirene.model.SirenDataBase
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private val searchFragment = SearchFragment()
@@ -14,9 +17,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val database = SirenDataBase.getDatabase(this)
-        println(database)
-        println(database.CompanyDAO().getOne(1))
-        println("yo")
+        database.seed()
+
+
         replaceFragment(searchFragment)
         val bottom_navigation = findViewById<BottomNavigationView>(R.id.bottom_navigation)
 

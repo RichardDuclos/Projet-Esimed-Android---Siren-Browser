@@ -1,16 +1,22 @@
 package com.example.sirene.fragment
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.sirene.CompanyAdapter
+import com.example.sirene.HistoryAdapter
 import com.example.sirene.R
+import com.example.sirene.model.SirenDataBase
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+/*private const val ARG_PARAM1 = "param1"
+private const val ARG_PARAM2 = "param2"*/
 
 /**
  * A simple [Fragment] subclass.
@@ -18,16 +24,16 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class HistoryFragment : Fragment() {
-    // TODO: Rename and change types of parameters
+    /*// TODO: Rename and change types of parameters
     private var param1: String? = null
-    private var param2: String? = null
+    private var param2: String? = null*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
+        /*arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
-        }
+        }*/
     }
 
     override fun onCreateView(
@@ -38,7 +44,17 @@ class HistoryFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_history, container, false)
     }
 
-    companion object {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val database = SirenDataBase.getDatabase(context as Context)
+        val historyList = database.ResearchDAO().getAll()
+        val recyclerView = view.findViewById<RecyclerView>(R.id.history_recyclerview)
+
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.adapter = HistoryAdapter(context as Context, (historyList))
+
+    }
+    /*companion object {
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
@@ -56,5 +72,5 @@ class HistoryFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
-    }
+    }*/
 }

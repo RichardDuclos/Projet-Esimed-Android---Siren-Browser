@@ -7,6 +7,6 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface CompanyAPI {
-    @GET("/sirene/v1/full_text/{Company}")
-    fun search(@Path("Company") company: String) : Call<Results>
+    @GET("sirene/v1/full_text/{Company}")
+    fun search(@Path("Company") company: String, @Query("per_page") per_page : Int) : Call<Results>
 }

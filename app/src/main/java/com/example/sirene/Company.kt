@@ -14,7 +14,7 @@ data class Company(
     var l4_declaree: String?,
     var l5_declaree: String?,
     var l7_declaree: String?,
-
+    var nom_raison_sociale: String?
 )  {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

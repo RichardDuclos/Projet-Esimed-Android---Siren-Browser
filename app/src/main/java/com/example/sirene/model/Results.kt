@@ -16,7 +16,6 @@ class Results {
     @SerializedName("page")
     var page: Long? = null
 
-    @SerializedName("total_results")
+    @SerializedName("etablissement")
     var etablissement: List<Company>? = null
-
 }
