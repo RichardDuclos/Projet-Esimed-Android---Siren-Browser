@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.SearchFragment">
+    tools:context=".fragment.SearchFragment"
+    android:padding="10dp">
 
     <LinearLayout
         android:id="@+id/search_wrapper"
@@ -12,8 +13,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="0dp"
         android:orientation="horizontal"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp">
+>
 
         <EditText
             android:id="@+id/searchInput"
@@ -22,6 +22,7 @@
             android:layout_weight="1"
             android:hint="@string/company_name"
             android:singleLine="true" />
+
         <ImageButton
             android:id="@+id/bt_search"
             android:layout_width="wrap_content"
@@ -32,15 +33,44 @@
 
 
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/filterLinearLayoutFilter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/search_wrapper"
+        >
+        <EditText
+            android:id="@+id/etDepartement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/department"
+            android:inputType="number"
+
+            android:layout_weight="0.5"
+            android:maxLength="3"
+            android:layout_marginEnd="10dp"/>
+
+        <EditText
+            android:id="@+id/etZipCode"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/zipcode"
+            android:layout_weight="0.5"
+            android:maxLength="5"
+            android:layout_marginStart="10dp"
+            />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tvnbresult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/search_wrapper"
         android:text=""
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"/>
+        android:layout_below="@+id/filterLinearLayoutFilter"
+
+        android:paddingStart="10dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_recyclerview"

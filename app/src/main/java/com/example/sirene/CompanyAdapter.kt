@@ -1,6 +1,7 @@
 package com.example.sirene
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -12,7 +13,12 @@ class CompanyAdapter(val context: Context, val company_list: List<Company>) : Re
 
     override fun onBindViewHolder(holder: CompanyViewHolder, position: Int) {
         holder.textViewCompanyName.text = company_list[position].nom_raison_sociale
-
+        holder.itemView.setOnClickListener{
+            val intent = Intent(context, CompanyDetailsActivity::class.java).apply {
+                putExtra("company", company_list[position])
+            }
+            context.startActivity(intent)
+        }
 
     }
 

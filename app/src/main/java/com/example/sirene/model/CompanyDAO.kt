@@ -16,6 +16,9 @@ interface CompanyDAO {
     @Query("select * from company join link on link.id_company = company.id join research using (id_search) where research.id_search = :id_search")
     abstract fun getAllFromSearch(id_search: Long): List<Company>
 
+    @Query("select * from company where id IN (select id_company from save)")
+    abstract fun getAllSaved(): List<Company>
+
     @Insert
      fun create(company: Company): Long
 

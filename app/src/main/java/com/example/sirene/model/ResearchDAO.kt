@@ -15,8 +15,8 @@ interface ResearchDAO {
     @Query("update research set archive = 1 where archive = 0 AND date + 86400 < CAST(strftime('%s', 'now') as LONG)")
     abstract fun updateArchive()
 
-    @Query("select * from research where text = :text AND archive = 0 LIMIT 1")
-    abstract fun getNonArchived(text: String) : List<Research>
+    @Query("select * from research where text = :text AND zip_code = :zip_code AND departement_code = :departement_code AND archive = 0 LIMIT 1")
+    abstract fun getNonArchived(text: String, zip_code: String, departement_code: String) : List<Research>
 
     @Insert
     fun create(research: Research): Long

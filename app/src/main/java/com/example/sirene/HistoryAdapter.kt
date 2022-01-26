@@ -1,6 +1,7 @@
 package com.example.sirene
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -20,8 +21,30 @@ class HistoryAdapter(val context: Context, val historyList: List<Research>) : Re
         val pattern = "DD/MM/YYYY"
         val simpleDateFormat = SimpleDateFormat(pattern)
         val dateformat = simpleDateFormat.format(date as Date)
-        holder.textViewDate.text = dateformat
+        var string = ""
+        val zipcode : String? = historyList[position].zip_code
+        val departement_code : String? = historyList[position].departement_code
+        if(zipcode!= "" && departement_code != "")
+        {
+            string = "$departement_code - $zipcode "
+        }
+        else{
+            if(zipcode != ""){
+                string = "$zipcode "
+            }
+            else if(departement_code != ""){
+                string = "$departement_code "
+            }
 
+        }
+        string += dateformat
+        holder.textViewDate.text = string
+        holder.itemView.setOnClickListener{
+            val intent = Intent(context, HistoryActivity::class.java).apply {
+                putExtra("research", historyList[position])
+            }
+            context.startActivity(intent)
+        }
 
     }
 

@@ -3,9 +3,21 @@
     <string name="company_name">Company name</string>
     <string name="search">Search</string>
     <string name="history">History</string>
+    <string name="saved">Saved</string>
+    <string name="settings">Settings</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="placeholdercompanyname">placeholdercompanyname</string>
     <string name="placeholderquery">placeholderquery</string>
     <string name="nb_result">%s result%s</string>
+    <string name="siret">Siret: %s</string>
+    <string name="address">Address: %s</string>
+    <string name="share">Share</string>
+    <string name="save">Save</string>
+    <string name="share_content">Check out this company :" %s located in %s"</string>
+    <string name="saved_company">Saved companies</string>
+    <string name="empty_saved">No saved company</string>
+    <string name="zipcode">Zip Code</string>
+    <string name="department">Department</string>
+    <string name="empty_search">Please enter a company name</string>
 
 </resources>

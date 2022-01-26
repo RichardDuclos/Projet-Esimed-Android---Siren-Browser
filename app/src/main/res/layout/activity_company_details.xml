@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CompanyDetailsActivity"
+    android:padding="10dp"
+    >
+
+    <LinearLayout
+        android:id="@+id/buttonsLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:drawableTop="@android:drawable/ic_menu_share"
+            android:textColor="@android:color/secondary_text_light"
+            android:id="@+id/ButtonShare"
+            android:text="@string/share"
+            android:layout_weight="0.25"
+            style="?android:attr/buttonBarButtonStyle" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:drawableTop="@drawable/ic_is_saved"
+            android:textColor="@android:color/secondary_text_light"
+            android:id="@+id/ButtonSave"
+
+            android:text="@string/save"
+            android:layout_weight="0.25"
+            style="?android:attr/buttonBarButtonStyle" />
+
+
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tv_company_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/buttonsLinearLayout"
+        android:text="@string/placeholdercompanyname"
+        android:textSize="25sp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/siret"
+        android:id="@+id/tv_siret"
+        android:layout_below="@id/tv_company_name"
+        android:layout_marginTop="10dp"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/tv_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_siret"
+        android:layout_marginTop="10dp"
+        android:text="@string/address" />
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.example.sirene.fragment.MyMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tv_address"/>
+</RelativeLayout>

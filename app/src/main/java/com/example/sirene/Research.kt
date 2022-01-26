@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 @Entity
 data class Research(
@@ -15,7 +16,7 @@ data class Research(
     val date: Long?,
     val nb_result : Int?
 
-)  {
+) : Serializable {
 
 
 

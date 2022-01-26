@@ -13,6 +13,7 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
     private val searchFragment = SearchFragment()
     private val historyFragment = HistoryFragment()
+    private val savedFragment = SavedFragment()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -27,6 +28,7 @@ class MainActivity : AppCompatActivity() {
             when(it.itemId){
                 R.id.page_search -> replaceFragment(searchFragment)
                 R.id.page_history -> replaceFragment(historyFragment)
+                R.id.page_saved -> replaceFragment(savedFragment)
                 else -> {
                     return@setOnNavigationItemSelectedListener false
                 }
