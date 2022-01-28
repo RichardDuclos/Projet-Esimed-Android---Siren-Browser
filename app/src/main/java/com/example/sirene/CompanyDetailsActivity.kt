@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Transformations.map
@@ -21,20 +22,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 class CompanyDetailsActivity : AppCompatActivity(){
     private var myMapFragment : MyMapFragment? = null
 
-    private val callback = OnMapReadyCallback { googleMap ->
-        /**
-         * Manipulates the map once available.
-         * This callback is triggered when the map is ready to be used.
-         * This is where we can add markers or lines, add listeners or move the camera.
-         * In this case, we just add a marker near Sydney, Australia.
-         * If Google Play services is not installed on the device, the user will be prompted to
-         * install it inside the SupportMapFragment. This method will only be triggered once the
-         * user has installed Google Play services and returned to the app.
-         */
-        val sydney = LatLng(-34.0, 151.0)
-        googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
-    }
+
 
 
     @SuppressLint("UseCompatLoadingForColorStateLists", "UseCompatLoadingForDrawables")
@@ -48,6 +36,22 @@ class CompanyDetailsActivity : AppCompatActivity(){
         tvCompanyName.text = company.nom_raison_sociale
         val tvSiret = findViewById<TextView>(R.id.tv_siret)
         tvSiret.text = String.format(getString(R.string.siret), company.siret)
+        val tvSiren = findViewById<TextView>(R.id.tv_siren)
+        tvSiren.text = String.format(getString(R.string.siren), company.siren)
+        val tvSiege = findViewById<TextView>(R.id.tv_siege)
+        val image = findViewById<ImageView>(R.id.imageView)
+        val yes : Drawable = resources.getDrawable(R.drawable.ic_yes)
+        val no : Drawable = resources.getDrawable(R.drawable.ic_no)
+        if(company.is_siege=="1"){
+            image.setImageDrawable(yes)
+        }
+        else{
+            image.setImageDrawable(no)
+        }
+
+
+
+
         val tvAdresse = findViewById<TextView>(R.id.tv_address)
         var address = ""
         if(company.numero_voie != null){
@@ -74,6 +78,12 @@ class CompanyDetailsActivity : AppCompatActivity(){
 
         tvAdresse.text = String.format(getString(R.string.address), address )
 
+        val tvDomain = findViewById<TextView>(R.id.tvDomain)
+        tvDomain.text = company.libelle_activite_principale
+
+        val tvTypeLegal = findViewById<TextView>(R.id.tv_type)
+
+        tvTypeLegal.setText(company.libelle_nature_juridique_entreprise)
 
         val shareButton = findViewById<Button>(R.id.ButtonShare)
         shareButton.setOnClickListener {
@@ -111,13 +121,31 @@ class CompanyDetailsActivity : AppCompatActivity(){
                 database.SaveDAO().create(save)
             }
         }
-        /*val arguments = Bundle()
-        arguments.putDouble("latitude", (company.latitude as String).toDouble())
-        arguments.putDouble("longitude", (company.longitude as String).toDouble())
 
-        val fragmentManager: FragmentManager = this.supportFragmentManager
-        myMapFragment = fragmentManager.findFragmentById(R.id.map) as MyMapFragment
-        myMapFragment!!.arguments = arguments*/
+
+        if(!company.latitude.isNullOrEmpty() && !company.longitude.isNullOrEmpty()){
+
+            val fragmentManager: FragmentManager = this.supportFragmentManager
+
+            myMapFragment = fragmentManager.findFragmentById(R.id.map) as MyMapFragment
+
+            val location = LatLng((company.latitude as String).toDouble(), (company.longitude as String).toDouble())
+            val markerOptions = MarkerOptions()
+            markerOptions.position(location)
+            markerOptions.title(address)
+            // Clear previously click position.
+            myMapFragment!!.getMapAsync{
+
+                it.clear()
+                // Zoom the Marker
+                it.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
+                // Add Marker on Map
+                it.addMarker(markerOptions)
+            }
+        }
+
+
+
 
 
     }

@@ -10,18 +10,21 @@
         android:layout_height="wrap_content"
         app:cardCornerRadius="5dp"
         android:layout_margin="10dp"
+        android:backgroundTint="@color/red_200"
         >
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/relative_history"
             android:padding="15dp">
+
             <TextView
+                android:id="@+id/tvquery"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tvquery"
-                android:textSize="16sp"
-                android:text="@string/placeholderquery"/>
+                android:text="@string/placeholderquery"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/tvDate"
@@ -29,6 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvquery"
                 android:layout_marginTop="10dp"
+                android:textSize="15sp"
                 android:text="@string/placeholderquery" />
         </RelativeLayout>
 

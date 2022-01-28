@@ -6,4 +6,5 @@ import androidx.recyclerview.widget.RecyclerView
 
 class CompanyViewHolder(row: View) : RecyclerView.ViewHolder(row) {
     var textViewCompanyName = row.findViewById<TextView>(R.id.companyname)
+    val textViewAdress = row.findViewById<TextView>(R.id.adress)
 }

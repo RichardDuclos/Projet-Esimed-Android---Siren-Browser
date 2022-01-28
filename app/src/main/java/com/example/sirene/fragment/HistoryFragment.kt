@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sirene.CompanyAdapter
@@ -52,6 +53,11 @@ class HistoryFragment : Fragment() {
 
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = HistoryAdapter(context as Context, (historyList))
+
+        val textViewEmpty = view.findViewById<TextView>(R.id.tv_empty_history)
+        if((recyclerView.adapter as HistoryAdapter).itemCount > 0){
+            textViewEmpty.visibility = View.INVISIBLE
+        }
 
     }
     /*companion object {

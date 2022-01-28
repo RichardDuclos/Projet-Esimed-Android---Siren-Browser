@@ -9,31 +9,13 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
 
-class MyMapFragment(       ) : SupportMapFragment(), OnMapReadyCallback {
-
-    private var googleMap: GoogleMap? = null
-    var lat: Double? = null
-    var long: Double? = null
-
+class MyMapFragment : SupportMapFragment(), OnMapReadyCallback {
+    public var googleMap: GoogleMap? = null
     override fun onMapReady(gmap: GoogleMap) {
         googleMap = gmap
 
-        println("mapready")
-        val location = LatLng(lat as Double, long as Double)
 
 
-        //googleMap!!.moveCamera(CameraUpdateFactory.newLatLng(vietnam))
-        val markerOptions = MarkerOptions()
-        markerOptions.position(location)
-        markerOptions.title(location.latitude.toString() + " : " + location.longitude)
-        // Clear previously click position.
-        googleMap!!.clear()
-        // Zoom the Marker
-        googleMap!!.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 10f))
-        // Add Marker on Map
-        googleMap!!.addMarker(markerOptions)
-
-        //}
     }
 
     init {
@@ -41,14 +23,4 @@ class MyMapFragment(       ) : SupportMapFragment(), OnMapReadyCallback {
 
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        println("oncreate")
-
-        val bundle : Bundle? = this.arguments
-        if(bundle != null){
-            lat = bundle.getDouble("latitude", 1.0)
-            long = bundle.getDouble("longitude", 1.0)
-        }
-    }
 }

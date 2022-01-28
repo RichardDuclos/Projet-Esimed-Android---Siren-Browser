@@ -14,14 +14,14 @@
         android:layout_marginTop="20dp"
         android:text="@string/saved_company"
         android:textSize="20sp" />
+
     <TextView
+        android:id="@+id/tv_empty_saved"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:text="@string/empty_saved"
-        android:id="@+id/tv_empty_saved"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:textSize="20sp"/>
+        android:textSize="20sp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_below="@id/tvSaved"

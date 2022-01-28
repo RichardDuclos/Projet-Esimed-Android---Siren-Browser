@@ -4,17 +4,15 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.sirene.Company
-import com.example.sirene.Link
-import com.example.sirene.Research
-import com.example.sirene.Save
+import com.example.sirene.*
 
-@Database(version = 12, entities = [Company::class, Research::class, Link::class, Save::class])
+@Database(version = 21, entities = [Company::class, Research::class, Link::class, Save::class, Settings::class])
 abstract class SirenDataBase : RoomDatabase(){
     abstract fun CompanyDAO() : CompanyDAO
     abstract fun ResearchDAO() : ResearchDAO
     abstract fun LinkDAO() : LinkDAO
     abstract fun SaveDAO() : SaveDAO
+    abstract fun SettingsDAO() : SettingsDAO
     companion object{
         var INSTANCE: SirenDataBase? = null
         fun getDatabase(context: Context): SirenDataBase
@@ -29,12 +27,10 @@ abstract class SirenDataBase : RoomDatabase(){
             return INSTANCE!!
         }
     }
-    fun seed(){
-        if(CompanyDAO().getAll().count() == 0){
-
-
-            val search = Research(null, "eeeeeeeedfssteghysethee", null , null, false, 980347831000, 30  )
-            ResearchDAO().create(search)
+    fun setup(){
+        if(SettingsDAO().getAll().count() == 0){
+            val setting = Settings(null, "" , "", "", true)
+            SettingsDAO().create(setting)
         }
 
     }

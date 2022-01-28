@@ -22,7 +22,8 @@
             android:id="@+id/ButtonShare"
             android:text="@string/share"
             android:layout_weight="0.25"
-            style="?android:attr/buttonBarButtonStyle" />
+            style="?android:attr/buttonBarButtonStyle"
+            android:drawableTint="@color/red_500"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,29 +46,82 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/buttonsLinearLayout"
+        android:layout_centerHorizontal="true"
         android:text="@string/placeholdercompanyname"
+        android:textColor="@color/red_700"
+        android:textAlignment="center"
         android:textSize="25sp" />
+
     <TextView
+        android:id="@+id/tv_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/siret"
-        android:id="@+id/tv_siret"
         android:layout_below="@id/tv_company_name"
         android:layout_marginTop="10dp"
-        android:textSize="16sp"/>
+        android:text="@string/address"
+        android:textSize="20sp"
+        android:textColor="@color/red_200"/>
+
+    <TextView
+        android:id="@+id/tvDomain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_type"
+        android:layout_marginTop="10dp"
+        android:text="@string/address"
+        android:textSize="20sp" />
+    <TextView
+        android:id="@+id/tv_siret"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvDomain"
+        android:layout_marginTop="10dp"
+        android:text="@string/siret"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tv_siren"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_siret"
+        android:layout_marginTop="10dp"
+        android:text="@string/siren"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/tv_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_siret"
+        android:layout_below="@id/tv_siren"
         android:layout_marginTop="10dp"
-        android:text="@string/address" />
+        android:text="@string/address"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/tv_siege"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_address"
+        android:layout_marginTop="10dp"
+        android:text="@string/siege"
+        android:textSize="16sp"/>
 
     <fragment
         android:id="@+id/map"
         android:name="com.example.sirene.fragment.MyMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/tv_address"/>
+        android:layout_below="@id/tv_address"
+        android:layout_marginTop="50dp"
+        />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tv_siege"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="0dp"
+        android:layout_toEndOf="@+id/tv_siege"
+        app:srcCompat="@drawable/ic_yes" />
 </RelativeLayout>

@@ -20,6 +20,26 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.Serializable
 import java.util.*
+import android.text.Editable
+
+import android.text.TextWatcher
+import android.view.KeyEvent
+import com.example.sirene.model.NafDatabase
+
+import android.widget.ArrayAdapter
+import android.widget.AdapterView
+import android.view.inputmethod.EditorInfo
+
+import android.widget.TextView
+
+import android.widget.TextView.OnEditorActionListener
+
+
+
+
+
+
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -33,9 +53,12 @@ private const val ARG_PARAM2 = "param2"*/
  */
 class SearchFragment : Fragment() {
     private var query: String = ""
-    private var zipCode: String = ""
-    private var departementCode: String = ""
+    private var zipCodeValue: String = ""
+    private var departementCodeValue: String = ""
     private var companyList : List<Company> = listOf<Company>()
+    //private var nafValue : String = ""
+    //private var first = false;
+    //private var naf_list = listOf<String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // pour bundle
@@ -58,6 +81,7 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val database = SirenDataBase.getDatabase(context as Context)
+        //val nafdatabase = NafDatabase.getDatabase(context as Context)
 
         if(savedInstanceState != null)
         {
@@ -66,25 +90,50 @@ class SearchFragment : Fragment() {
                 view.findViewById<EditText>(R.id.searchInput).setText(query)
             }
             if(savedInstanceState.containsKey("zipCode")){
-                zipCode = savedInstanceState.getString("zipCode") as String
-                view.findViewById<EditText>(R.id.etZipCode).setText(zipCode)
+                zipCodeValue = savedInstanceState.getString("zipCode") as String
+                view.findViewById<EditText>(R.id.etZipCode).setText(zipCodeValue)
             }
             if(savedInstanceState.containsKey("departementCode")){
-                departementCode = savedInstanceState.getString("departementCode") as String
-                view.findViewById<EditText>(R.id.etDepartement).setText(departementCode)
+                departementCodeValue = savedInstanceState.getString("departementCode") as String
+                view.findViewById<EditText>(R.id.etDepartement).setText(departementCodeValue)
             }
             if(savedInstanceState.containsKey("companyList")){
                 companyList = savedInstanceState.getSerializable("companyList") as List<Company>
 
-
             }
+            /*if(savedInstanceState.containsKey("nafValue")){
+                nafValue = savedInstanceState.getString("nafValue") as String
+            }*/
 
         }
+
+        val settings = database.SettingsDAO().getAll()
+        val setting = settings[0]
+
         val recyclerView = view.findViewById<RecyclerView>(R.id.search_recyclerview)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = CompanyAdapter(context as Context, companyList)
 
+        val departementCode = view.findViewById<EditText>(R.id.etDepartement)
+        val zipCode = view.findViewById<EditText>(R.id.etZipCode)
+
+
+        /*val etNaf = view.findViewById<EditText>(R.id.etNaf)
+        val spinner = view.findViewById<Spinner>(R.id.spinnerNaf)*/
+
+        if(setting.use){
+            if(setting.code_postal != "" && zipCode.text.toString() != ""){
+                zipCode.setText(setting.code_postal)
+            }
+            if(setting.departement_code != "" && departementCode.text.toString() != ""){
+                departementCode.setText(setting.departement_code)
+            }
+        }
+
+
         val searchButton = view.findViewById<ImageButton>(R.id.bt_search)
+
+
 
         val nbResults = view.findViewById<TextView>(R.id.tvnbresult)
         if(companyList.count()>0){
@@ -92,22 +141,25 @@ class SearchFragment : Fragment() {
                 if( (recyclerView.adapter as CompanyAdapter).itemCount>1) "s"  else  "")
         }
 
+
         val service = SirenService()
         searchButton.setOnClickListener{
             (activity as Activity).hideKeyboard()
             query = view.findViewById<EditText>(R.id.searchInput).text.toString()
+
+            val departementCodeValue = departementCode.text.toString()
+            val zipCodeValue = zipCode.text.toString()
+            setting.code_postal = zipCodeValue
+            setting.departement_code = departementCodeValue
+            database.SettingsDAO().update(setting)
             if(query == ""){
                 Toast.makeText(context, getString(R.string.empty_search), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            departementCode = view.findViewById<EditText>(R.id.etDepartement).text.toString()
-            zipCode = view.findViewById<EditText>(R.id.etZipCode).text.toString()
-
             val progressbar = view.findViewById<ProgressBar>(R.id.companyprogress)
 
-
-            database.ResearchDAO().updateArchive()
-            val searchResults = database.ResearchDAO().getNonArchived(query, zipCode, departementCode)
+            database.ResearchDAO().updateCache()
+            val searchResults = database.ResearchDAO().getNonArchived(query, zipCodeValue, departementCodeValue)
 
             val dateConverter = DateConverter()
 
@@ -135,14 +187,14 @@ class SearchFragment : Fragment() {
                 Runnable {
 
 
-                    service.query(query, 50, zipCode, departementCode, object: Callback<Results>{
+                    service.query(query, 50, zipCodeValue, departementCodeValue, object: Callback<Results>{
                         override fun onResponse(call: Call<Results>, response: Response<Results>) {
 
                             if(response.code() == 200){
 
 
                                 val companyListAPI = response.body()?.etablissement as List<Company>
-                                var research = Research(null, query, zipCode, departementCode, false, dateConverter.toLong(Date()), companyListAPI.count() )
+                                var research = Research(null, query, zipCodeValue, departementCodeValue, false, dateConverter.toLong(Date()), companyListAPI.count() )
                                 val id = database.ResearchDAO().create(research)
                                 research = database.ResearchDAO().getOne(id)!!
                                 companyListAPI.forEach {
@@ -185,10 +237,13 @@ class SearchFragment : Fragment() {
 
                         }
                         override fun onFailure(call: Call<Results>, t: Throwable) {
-                            val builder = AlertDialog.Builder(context)
+                            if(context != null){
+                                val builder = AlertDialog.Builder(context)
 
-                            builder.setMessage("Problème lors de l'appel au service web")
-                            builder.create().show()
+                                builder.setMessage("Problème lors de l'appel au service web")
+                                builder.create().show()
+                            }
+
                             progressbar.visibility = View.INVISIBLE
                             recyclerView.visibility = View.VISIBLE
                             nbResults.visibility = View.VISIBLE
@@ -201,18 +256,84 @@ class SearchFragment : Fragment() {
                 }
             ).start()
         }
-    }
 
+        /*updateSpinnerWithNaf(spinner, etNaf.text.toString())
+        etNaf.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(cs: CharSequence, arg1: Int, arg2: Int, arg3: Int) {
+                updateSpinnerWithNaf(spinner, etNaf.text.toString())
+            }
+
+            override fun beforeTextChanged(arg0: CharSequence, arg1: Int, arg2: Int, arg3: Int) {}
+            override fun afterTextChanged(arg0: Editable) {}
+        })
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    if(!first){
+                        first = !first
+                    }
+                    else{
+                println("item selected")
+                        setEditTextFromSpinner(spinner, etNaf, position)
+
+                    }
+
+
+
+            }
+
+        }*/
+
+    }
+    /*fun setEditTextFromSpinner(spinner: Spinner, editText: EditText, position: Int){
+        val codeDAO = NafDatabase.getDatabase(context as Context).NAFDAO()
+
+        val naf = codeDAO.getWithFilterAndPosition(editText.text.toString(), position)
+        if(naf.description != editText.text.toString()){
+            editText.setText(naf.description)
+
+        }
+    }*/
+    /*fun updateSpinnerWithNaf(spinner : Spinner, codeinput : String) {
+        val codeDAO = NafDatabase.getDatabase(context as Context).NAFDAO()
+        val filtre = codeinput
+        val naf_list = codeDAO.getAllFilter(filtre)
+        val adapter = ArrayAdapter(context as Context, android.R.layout.simple_spinner_item, naf_list)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
+        spinner.adapter = adapter
+
+    }*/
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString("query", query )
-        outState.putString("zipCode", zipCode )
-        outState.putString("departementCode", departementCode )
+        outState.putString("zipCode", zipCodeValue )
+        outState.putString("departementCode", departementCodeValue )
         outState.putSerializable("companyList", companyList as Serializable)
+        //outState.putString("nafValue", nafValue )
 
     }
     fun Fragment.hideKeyboard() {
         view?.let { activity?.hideKeyboard(it) }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val database = SirenDataBase.getDatabase(context as Context)
+        val settings = database.SettingsDAO().getAll()
+        val setting = settings[0]
+
+
+
+        val departementCode = (view as View).findViewById<EditText>(R.id.etDepartement)
+        val zipCode = (view as View).findViewById<EditText>(R.id.etZipCode)
+        if(setting.use){
+            zipCode.setText(setting.code_postal)
+            departementCode.setText(setting.departement_code)
+        }
+
     }
 
     fun Activity.hideKeyboard() {

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Sirene</string>
+    <string name="app_name">Company Finder</string>
     <string name="company_name">Company name</string>
     <string name="search">Search</string>
     <string name="history">History</string>
@@ -10,7 +10,8 @@
     <string name="placeholderquery">placeholderquery</string>
     <string name="nb_result">%s result%s</string>
     <string name="siret">Siret: %s</string>
-    <string name="address">Address: %s</string>
+    <string name="siren">Siren: %s</string>
+    <string name="address">%s</string>
     <string name="share">Share</string>
     <string name="save">Save</string>
     <string name="share_content">Check out this company :" %s located in %s"</string>
@@ -19,5 +20,14 @@
     <string name="zipcode">Zip Code</string>
     <string name="department">Department</string>
     <string name="empty_search">Please enter a company name</string>
+    <string name="save_settings">Save settings</string>
+    <string name="filter_settings">Filter settings</string>
+    <string name="clear_history">Clear history</string>
+    <string name="history_settings">History settings</string>
+    <string name="empty_history">Empty history</string>
+    <string name="siege">Siege :</string>
+    <string name="naf_et">Domain name or naf code</string>
+    <string name="placeholder">placeholder</string>
+
 
 </resources>

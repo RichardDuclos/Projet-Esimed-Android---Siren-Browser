@@ -20,8 +20,8 @@ data class Company(
     var departement: String?,
     var libelle_commune: String?,
     var is_siege: String?,
-    var libelle_activite_principale: String?,
     var libelle_nature_juridique_entreprise: String?,
+    val libelle_activite_principale: String?,
     var nom_raison_sociale: String?,
     var longitude: String?,
     var latitude: String?
