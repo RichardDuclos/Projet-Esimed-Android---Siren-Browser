@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Company Finder</string>
+    <string name="app_name">Sirene Browser</string>
     <string name="company_name">Nom de l\'entreprise</string>
     <string name="search">Recherche</string>
     <string name="history">Historique</string>

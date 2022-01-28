@@ -56,6 +56,10 @@ class SavedFragment : Fragment() {
         if((recyclerView.adapter as CompanyAdapter).itemCount > 0){
             textViewEmpty.visibility = View.INVISIBLE
         }
+        else{
+            textViewEmpty.visibility = View.VISIBLE
+
+        }
     }
 
     override fun onResume() {
@@ -71,6 +75,10 @@ class SavedFragment : Fragment() {
         val textViewEmpty = view.findViewById<TextView>(R.id.tv_empty_saved)
         if((recyclerView.adapter as CompanyAdapter).itemCount > 0){
             textViewEmpty.visibility = View.INVISIBLE
+        }
+        else{
+            textViewEmpty.visibility = View.VISIBLE
+
         }
     }
     /*companion object {
